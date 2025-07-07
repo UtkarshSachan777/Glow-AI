@@ -24,11 +24,11 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-foreground hover:text-primary transition-smooth">Home</a>
-            <a href="#" className="text-foreground hover:text-primary transition-smooth">Products</a>
-            <a href="#" className="text-foreground hover:text-primary transition-smooth">AI Analysis</a>
-            <a href="#" className="text-foreground hover:text-primary transition-smooth">Routines</a>
-            <a href="#" className="text-foreground hover:text-primary transition-smooth">About</a>
+            <a href="/" className="text-foreground hover:text-primary transition-smooth">Home</a>
+            <a href="/products" className="text-foreground hover:text-primary transition-smooth">Products</a>
+            <a href="/analysis" className="text-foreground hover:text-primary transition-smooth">AI Analysis</a>
+            <a href="/about" className="text-foreground hover:text-primary transition-smooth">About</a>
+            <a href="/contact" className="text-foreground hover:text-primary transition-smooth">Contact</a>
           </div>
 
           {/* Search Bar */}

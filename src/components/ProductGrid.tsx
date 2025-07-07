@@ -26,8 +26,8 @@ const products: Product[] = [
     id: "1",
     name: "Hydrating Vitamin C Serum",
     brand: "GlowLab",
-    price: 48,
-    originalPrice: 65,
+    price: 3999,
+    originalPrice: 5399,
     rating: 4.8,
     reviews: 1247,
     image: serumImage,
@@ -39,7 +39,7 @@ const products: Product[] = [
     id: "2",
     name: "Renewal Night Moisturizer",
     brand: "PureSkin",
-    price: 62,
+    price: 5199,
     rating: 4.9,
     reviews: 856,
     image: moisturizerImage,
@@ -51,7 +51,7 @@ const products: Product[] = [
     id: "3",
     name: "Gentle Foam Cleanser",
     brand: "CleanBeauty",
-    price: 28,
+    price: 2299,
     rating: 4.7,
     reviews: 2341,
     image: cleanserImage,
@@ -63,7 +63,7 @@ const products: Product[] = [
     id: "4",
     name: "Niacinamide Pore Refiner",
     brand: "GlowLab",
-    price: 34,
+    price: 2799,
     rating: 4.6,
     reviews: 678,
     image: serumImage,
@@ -75,8 +75,8 @@ const products: Product[] = [
     id: "5",
     name: "Peptide Recovery Cream",
     brand: "PureSkin",
-    price: 78,
-    originalPrice: 95,
+    price: 6499,
+    originalPrice: 7999,
     rating: 4.9,
     reviews: 432,
     image: moisturizerImage,
@@ -88,7 +88,7 @@ const products: Product[] = [
     id: "6",
     name: "Micellar Water Cleanser",
     brand: "CleanBeauty",
-    price: 22,
+    price: 1899,
     rating: 4.5,
     reviews: 1890,
     image: cleanserImage,
@@ -199,10 +199,10 @@ const ProductGrid = () => {
                 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold">${product.price}</span>
+                    <span className="text-2xl font-bold">₹{product.price.toLocaleString('en-IN')}</span>
                     {product.originalPrice && (
                       <span className="text-sm text-muted-foreground line-through">
-                        ${product.originalPrice}
+                        ₹{product.originalPrice.toLocaleString('en-IN')}
                       </span>
                     )}
                   </div>
