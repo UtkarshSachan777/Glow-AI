@@ -1,7 +1,10 @@
 import Navigation from "@/components/Navigation";
-import Hero from "@/components/Hero";
+import EnhancedHero from "@/components/Hero/EnhancedHero";
 import ProductGrid from "@/components/ProductGrid";
 import SkinAnalysis from "@/components/SkinAnalysis";
+import FeaturesSection from "@/components/sections/FeaturesSection";
+import ProductShowcase from "@/components/sections/ProductShowcase";
+import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import { useState } from "react";
 
 const Index = () => {
@@ -13,7 +16,10 @@ const Index = () => {
       
       {!showAnalysis ? (
         <>
-          <Hero />
+          <EnhancedHero />
+          <FeaturesSection />
+          <ProductShowcase />
+          <TestimonialsSection />
           <ProductGrid />
           
           {/* Call to Action Section */}
