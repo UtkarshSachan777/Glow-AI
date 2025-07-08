@@ -27,6 +27,8 @@ interface Product {
   ai_match_score: number;
   is_featured?: boolean;
   category_id: string;
+  description?: string;
+  created_at?: string;
 }
 
 interface Category {
@@ -133,7 +135,11 @@ const Products = () => {
         filtered.sort((a, b) => b.rating - a.rating);
         break;
       case 'newest':
-        filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        filtered.sort((a, b) => {
+          const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
+          const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
+          return dateB - dateA;
+        });
         break;
       case 'ai-score':
         filtered.sort((a, b) => b.ai_match_score - a.ai_match_score);
@@ -318,7 +324,7 @@ const Products = () => {
                   <ProductCard
                     key={product.id}
                     product={product}
-                    onProductClick={setSelectedProduct}
+                    onProductClick={(product) => setSelectedProduct(product)}
                   />
                 ))}
               </div>

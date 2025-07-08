@@ -18,8 +18,13 @@ interface Product {
   rating: number;
   review_count: number;
   benefits: string[];
+  skin_types: string[];
+  ingredients: string[];
   ai_match_score: number;
   is_featured?: boolean;
+  category_id: string;
+  description?: string;
+  created_at?: string;
 }
 
 interface ProductCardProps {

@@ -16,7 +16,6 @@ interface Product {
   price: number;
   original_price?: number;
   image_url: string;
-  description: string;
   rating: number;
   review_count: number;
   benefits: string[];
@@ -24,6 +23,9 @@ interface Product {
   ingredients: string[];
   ai_match_score: number;
   is_featured?: boolean;
+  category_id: string;
+  description?: string;
+  created_at?: string;
 }
 
 interface ProductDetailModalProps {

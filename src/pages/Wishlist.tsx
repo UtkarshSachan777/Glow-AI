@@ -81,6 +81,9 @@ const Wishlist = () => {
                   review_count: 0,
                   benefits: [],
                   ai_match_score: 0,
+                  skin_types: [],
+                  ingredients: [],
+                  category_id: '',
                 }}
                 onProductClick={() => {}}
               />
