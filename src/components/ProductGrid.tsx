@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star, Heart, ShoppingCart } from "lucide-react";
-import serumImage from "@/assets/product-serum.jpg";
-import moisturizerImage from "@/assets/product-moisturizer.jpg";
-import cleanserImage from "@/assets/product-cleanser.jpg";
+// import serumImage from "@/assets/product-serum.jpg";
+// import moisturizerImage from "@/assets/product-moisturizer.jpg";
+// import cleanserImage from "@/assets/product-cleanser.jpg";
 import { useState } from "react";
 
 interface Product {
@@ -30,7 +30,7 @@ const products: Product[] = [
     originalPrice: 5399,
     rating: 4.8,
     reviews: 1247,
-    image: serumImage,
+    image: "/api/placeholder/300/300",
     tags: ["Best Seller", "AI Recommended"],
     description: "Brightening serum with 20% Vitamin C for radiant skin",
     aiMatch: 96
@@ -42,7 +42,7 @@ const products: Product[] = [
     price: 5199,
     rating: 4.9,
     reviews: 856,
-    image: moisturizerImage,
+    image: "/api/placeholder/300/300",
     tags: ["Premium", "Anti-Aging"],
     description: "Rich moisturizer with retinol and peptides",
     aiMatch: 89
@@ -54,7 +54,7 @@ const products: Product[] = [
     price: 2299,
     rating: 4.7,
     reviews: 2341,
-    image: cleanserImage,
+    image: "/api/placeholder/300/300",
     tags: ["Sensitive Skin", "Daily Use"],
     description: "pH-balanced cleanser for all skin types",
     aiMatch: 92
@@ -66,7 +66,7 @@ const products: Product[] = [
     price: 2799,
     rating: 4.6,
     reviews: 678,
-    image: serumImage,
+    image: "/api/placeholder/300/300",
     tags: ["Pore Care", "Oil Control"],
     description: "10% Niacinamide for minimized pores",
     aiMatch: 85
@@ -79,7 +79,7 @@ const products: Product[] = [
     originalPrice: 7999,
     rating: 4.9,
     reviews: 432,
-    image: moisturizerImage,
+    image: "/api/placeholder/300/300",
     tags: ["Luxury", "Repair"],
     description: "Advanced peptide complex for skin repair",
     aiMatch: 94
@@ -91,7 +91,7 @@ const products: Product[] = [
     price: 1899,
     rating: 4.5,
     reviews: 1890,
-    image: cleanserImage,
+    image: "/api/placeholder/300/300",
     tags: ["Makeup Remover", "Travel Size"],
     description: "Gentle micellar water for makeup removal",
     aiMatch: 78

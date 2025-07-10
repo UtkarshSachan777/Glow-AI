@@ -1,10 +1,10 @@
 import Navigation from "@/components/Navigation";
-import EnhancedHero from "@/components/Hero/EnhancedHero";
+import SimpleHero from "@/components/SimpleHero";
 import ProductGrid from "@/components/ProductGrid";
 import SkinAnalysis from "@/components/SkinAnalysis";
-import FeaturesSection from "@/components/sections/FeaturesSection";
-import ProductShowcase from "@/components/sections/ProductShowcase";
-import TestimonialsSection from "@/components/sections/TestimonialsSection";
+// import FeaturesSection from "@/components/sections/FeaturesSection";
+// import ProductShowcase from "@/components/sections/ProductShowcase";
+// import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import { useState } from "react";
 
 const Index = () => {
@@ -16,11 +16,13 @@ const Index = () => {
       
       {!showAnalysis ? (
         <>
-          <EnhancedHero />
+          <SimpleHero />
+          <ProductGrid />
+          {/* 
           <FeaturesSection />
           <ProductShowcase />
           <TestimonialsSection />
-          <ProductGrid />
+          */}
           
           {/* Call to Action Section */}
           <section className="py-20 bg-gradient-hero">
