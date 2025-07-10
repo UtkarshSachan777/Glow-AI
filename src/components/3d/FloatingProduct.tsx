@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere, Text3D, Float, Environment, MeshDistortMaterial } from '@react-three/drei';
+import { OrbitControls, Sphere, Float, Environment, MeshDistortMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface FloatingProductProps {
@@ -40,25 +40,7 @@ function AnimatedSphere({ color = "#e91e63" }: { color?: string }) {
 }
 
 function FloatingText({ text = "GLOW" }: { text?: string }) {
-  return (
-    <Float
-      speed={2}
-      rotationIntensity={0.5}
-      floatIntensity={1}
-      floatingRange={[-0.2, 0.2]}
-    >
-      <Text3D
-        font="/fonts/helvetiker_regular.typeface.json"
-        size={0.3}
-        height={0.1}
-        curveSegments={12}
-        position={[-0.8, 1.5, 0]}
-      >
-        {text}
-        <meshNormalMaterial />
-      </Text3D>
-    </Float>
-  );
+  return null; // Temporarily disabled to fix font loading issue
 }
 
 const FloatingProduct: React.FC<FloatingProductProps> = ({ 

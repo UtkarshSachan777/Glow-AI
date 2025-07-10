@@ -45,7 +45,7 @@ const EnhancedHero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                <span className="text-gradient-primary block">Discover Your</span>
+                <span className="bg-gradient-primary bg-clip-text text-transparent block">Discover Your</span>
                 <span className="text-foreground block">Perfect Glow</span>
               </motion.h1>
               
