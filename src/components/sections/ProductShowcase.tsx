@@ -14,7 +14,7 @@ import {
   Shield
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ProductViewer3D from '@/components/3d/ProductViewer3D';
+// import ProductViewer3D from '@/components/3d/ProductViewer3D';
 
 const showcaseProducts = [
   {
@@ -206,26 +206,30 @@ const ProductShowcase = () => {
                 </div>
               </div>
 
-              {/* 3D Product View */}
+              {/* Product Showcase */}
               <div className="relative">
-                <ProductViewer3D 
-                  productType={showcaseProducts[activeProduct].productType}
-                  color={showcaseProducts[activeProduct].color}
-                  size={1.3}
-                />
+                <div className="aspect-square bg-gradient-to-br from-primary/20 to-primary/40 rounded-3xl p-8 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-32 h-32 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <Droplets className="w-16 h-16 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">{showcaseProducts[activeProduct].name}</h3>
+                    <p className="text-white/80">Premium Product</p>
+                  </div>
+                </div>
                 
                 {/* Interactive Elements */}
                 <div className="absolute top-4 left-4 bg-white/10 backdrop-blur-md p-3 rounded-xl">
-                  <div className="flex items-center gap-2 text-sm font-medium">
+                  <div className="flex items-center gap-2 text-sm font-medium text-white">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                    Interactive 3D
+                    Premium Display
                   </div>
                 </div>
 
                 <div className="absolute bottom-4 right-4 bg-white/10 backdrop-blur-md p-3 rounded-xl">
                   <div className="text-sm font-medium">
-                    <div className="text-primary font-bold">Premium Quality</div>
-                    <div className="text-xs text-muted-foreground">Clinical grade</div>
+                    <div className="text-white font-bold">Premium Quality</div>
+                    <div className="text-xs text-white/70">Clinical grade</div>
                   </div>
                 </div>
               </div>

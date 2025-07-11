@@ -16,7 +16,7 @@ import {
   Star,
   CheckCircle
 } from 'lucide-react';
-import ProductViewer3D from '@/components/3d/ProductViewer3D';
+// import ProductViewer3D from '@/components/3d/ProductViewer3D';
 
 const features = [
   {
@@ -197,9 +197,17 @@ const FeaturesSection = () => {
             </div>
             
             <div className="relative">
-              <ProductViewer3D productType="serum" color="#e91e63" size={1.2} />
+              <div className="aspect-square bg-gradient-to-br from-primary/20 to-primary/40 rounded-3xl p-8 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-32 h-32 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <Sparkles className="w-16 h-16 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-2">Premium Serum</h3>
+                  <p className="text-white/80">Interactive Experience</p>
+                </div>
+              </div>
               <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md p-2 rounded-lg">
-                <div className="text-xs font-medium">Drag to rotate</div>
+                <div className="text-xs font-medium text-white">Premium Quality</div>
               </div>
             </div>
           </div>
