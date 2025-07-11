@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Star, Heart, ShoppingCart } from "lucide-react";
-import serumImage from "@/assets/product-serum.jpg";
-import moisturizerImage from "@/assets/product-moisturizer.jpg";
-import cleanserImage from "@/assets/product-cleanser.jpg";
+import { Star, Heart, ShoppingCart, Eye, Zap, Crown, Award } from "lucide-react";
+import premiumSerum from "@/assets/premium-serum-1.jpg";
+import premiumMoisturizer from "@/assets/premium-moisturizer-1.jpg";
+import premiumCleanser from "@/assets/premium-cleanser-1.jpg";
+import premiumEssence from "@/assets/premium-essence-1.jpg";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface Product {
   id: string;
@@ -24,77 +26,81 @@ interface Product {
 const products: Product[] = [
   {
     id: "1",
-    name: "Hydrating Vitamin C Serum",
-    brand: "GlowLab",
-    price: 3999,
-    originalPrice: 5399,
-    rating: 4.8,
-    reviews: 1247,
-    image: serumImage,
-    tags: ["Best Seller", "AI Recommended"],
-    description: "Brightening serum with 20% Vitamin C for radiant skin",
-    aiMatch: 96
+    name: "Diamond Radiance Essence",
+    brand: "LuxeGlow",
+    price: 15999,
+    originalPrice: 24999,
+    rating: 4.9,
+    reviews: 1567,
+    image: premiumEssence,
+    tags: ["Ultra Premium", "99% AI Match", "Diamond Technology"],
+    description: "Ultra-premium essence infused with diamond powder and rare botanical extracts for instant luminosity",
+    aiMatch: 99
   },
   {
     id: "2",
-    name: "Renewal Night Moisturizer",
-    brand: "PureSkin",
-    price: 5199,
-    rating: 4.9,
-    reviews: 856,
-    image: moisturizerImage,
-    tags: ["Premium", "Anti-Aging"],
-    description: "Rich moisturizer with retinol and peptides",
-    aiMatch: 89
+    name: "Platinum Cell Renewal Serum",
+    brand: "EliteCell",
+    price: 18499,
+    originalPrice: 27999,
+    rating: 4.8,
+    reviews: 945,
+    image: premiumSerum,
+    tags: ["Platinum Infused", "Stem Cell Tech", "Age Reversal"],
+    description: "Revolutionary platinum-infused serum with stem cell technology for cellular age reversal",
+    aiMatch: 97
   },
   {
     id: "3",
-    name: "Gentle Foam Cleanser",
-    brand: "CleanBeauty",
-    price: 2299,
-    rating: 4.7,
-    reviews: 2341,
-    image: cleanserImage,
-    tags: ["Sensitive Skin", "Daily Use"],
-    description: "pH-balanced cleanser for all skin types",
-    aiMatch: 92
+    name: "24K Gold Moisturizer",
+    brand: "EliteCell",
+    price: 12499,
+    originalPrice: 18999,
+    rating: 4.8,
+    reviews: 1834,
+    image: premiumMoisturizer,
+    tags: ["24K Gold", "Anti-Aging", "Luxury"],
+    description: "Luxury anti-aging moisturizer with 24k gold nanoparticles and peptide complex",
+    aiMatch: 96
   },
   {
     id: "4",
-    name: "Niacinamide Pore Refiner",
-    brand: "GlowLab",
-    price: 2799,
-    rating: 4.6,
-    reviews: 678,
-    image: serumImage,
-    tags: ["Pore Care", "Oil Control"],
-    description: "10% Niacinamide for minimized pores",
-    aiMatch: 85
+    name: "Premium Vitamin C Serum",
+    brand: "LuxeGlow",
+    price: 8499,
+    originalPrice: 12999,
+    rating: 4.9,
+    reviews: 2847,
+    image: premiumSerum,
+    tags: ["25% Vitamin C", "Clinical Grade", "Nano Tech"],
+    description: "Revolutionary 25% Vitamin C serum with nanotechnology for maximum absorption",
+    aiMatch: 98
   },
   {
     id: "5",
-    name: "Peptide Recovery Cream",
-    brand: "PureSkin",
-    price: 6499,
-    originalPrice: 7999,
-    rating: 4.9,
-    reviews: 432,
-    image: moisturizerImage,
-    tags: ["Luxury", "Repair"],
-    description: "Advanced peptide complex for skin repair",
-    aiMatch: 94
+    name: "Royal Honey Repair Mask",
+    brand: "PureLux",
+    price: 9999,
+    originalPrice: 14999,
+    rating: 4.7,
+    reviews: 2134,
+    image: premiumMoisturizer,
+    tags: ["Manuka Honey", "Overnight Repair", "Gold Leaf"],
+    description: "Luxurious overnight mask with rare Manuka honey and gold leaf for intensive repair",
+    aiMatch: 95
   },
   {
     id: "6",
-    name: "Micellar Water Cleanser",
-    brand: "CleanBeauty",
-    price: 1899,
-    rating: 4.5,
-    reviews: 1890,
-    image: cleanserImage,
-    tags: ["Makeup Remover", "Travel Size"],
-    description: "Gentle micellar water for makeup removal",
-    aiMatch: 78
+    name: "Enzymatic Probiotic Cleanser",
+    brand: "PureLux",
+    price: 6799,
+    originalPrice: 9499,
+    rating: 4.7,
+    reviews: 3421,
+    image: premiumCleanser,
+    tags: ["Probiotics", "pH Balanced", "Enzyme Tech"],
+    description: "Premium enzymatic cleanser with probiotics and advanced pH-balancing technology",
+    aiMatch: 94
   }
 ];
 
@@ -116,6 +122,14 @@ const ProductGrid = () => {
 
   const addToCart = (productId: string) => {
     setCart(prev => new Set(prev).add(productId));
+    // Show success feedback
+    setTimeout(() => {
+      setCart(prev => {
+        const newCart = new Set(prev);
+        newCart.delete(productId);
+        return newCart;
+      });
+    }, 2000);
   };
 
   return (
@@ -135,37 +149,57 @@ const ProductGrid = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product) => (
-            <Card key={product.id} className="group hover:shadow-elevated transition-smooth overflow-hidden bg-gradient-card">
+            <Card key={product.id} className="group hover:shadow-elevated transition-spring overflow-hidden bg-gradient-card border-0 shadow-lg hover:shadow-2xl">
               <div className="relative overflow-hidden">
                 <img 
                   src={product.image} 
                   alt={product.name}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-spring"
+                  className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-700"
                 />
+                
+                {/* Premium Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
                 {/* AI Match Badge */}
                 <div className="absolute top-4 left-4">
-                  <Badge className="bg-gradient-primary text-primary-foreground font-semibold">
+                  <Badge className={`font-semibold text-xs ${
+                    product.aiMatch >= 98 ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white' :
+                    product.aiMatch >= 95 ? 'bg-gradient-primary text-white' :
+                    'bg-background/90 text-foreground'
+                  }`}>
+                    {product.aiMatch >= 98 && <Crown className="w-3 h-3 mr-1" />}
+                    {product.aiMatch >= 95 && product.aiMatch < 98 && <Award className="w-3 h-3 mr-1" />}
+                    {product.aiMatch < 95 && <Zap className="w-3 h-3 mr-1" />}
                     {product.aiMatch}% AI Match
                   </Badge>
                 </div>
                 
-                {/* Favorite Button */}
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm hover:bg-background"
-                  onClick={() => toggleFavorite(product.id)}
-                >
-                  <Heart 
-                    className={`w-4 h-4 ${favorites.has(product.id) ? 'fill-primary text-primary' : 'text-muted-foreground'}`} 
-                  />
-                </Button>
+                {/* Favorite & Quick View */}
+                <div className="absolute top-4 right-4 flex gap-2">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="w-8 h-8 bg-white/90 backdrop-blur-sm hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+                    onClick={() => toggleFavorite(product.id)}
+                  >
+                    <Heart 
+                      className={`w-4 h-4 ${favorites.has(product.id) ? 'fill-primary text-primary' : 'text-muted-foreground'}`} 
+                    />
+                  </Button>
+                  
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="w-8 h-8 bg-white/90 backdrop-blur-sm hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+                  >
+                    <Eye className="w-4 h-4 text-muted-foreground" />
+                  </Button>
+                </div>
                 
-                {/* Tags */}
-                <div className="absolute bottom-4 left-4 flex gap-2">
+                {/* Premium Tags */}
+                <div className="absolute bottom-4 left-4 flex gap-2 flex-wrap max-w-[calc(100%-2rem)]">
                   {product.tags.slice(0, 2).map((tag) => (
-                    <Badge key={tag} variant="secondary" className="text-xs">
+                    <Badge key={tag} variant="secondary" className="text-xs bg-white/90 text-foreground">
                       {tag}
                     </Badge>
                   ))}
@@ -209,11 +243,15 @@ const ProductGrid = () => {
                   
                   <Button
                     onClick={() => addToCart(product.id)}
-                    variant={cart.has(product.id) ? "secondary" : "premium"}
-                    className="gap-2"
+                    variant={cart.has(product.id) ? "secondary" : "default"}
+                    className={`gap-2 transition-all ${
+                      cart.has(product.id) 
+                        ? 'bg-green-500 hover:bg-green-600 text-white' 
+                        : 'bg-gradient-primary hover:opacity-90 text-white'
+                    }`}
                   >
                     <ShoppingCart className="w-4 h-4" />
-                    {cart.has(product.id) ? 'Added' : 'Add to Cart'}
+                    {cart.has(product.id) ? 'Added ✓' : 'Add to Cart'}
                   </Button>
                 </div>
               </CardContent>
@@ -222,9 +260,11 @@ const ProductGrid = () => {
         </div>
         
         <div className="text-center mt-12">
-          <Button variant="outline" size="lg" className="px-8">
-            View All Products
-          </Button>
+          <Link to="/products">
+            <Button variant="outline" size="lg" className="px-8 border-2 border-primary/30 hover:bg-primary/5">
+              View All Premium Products
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

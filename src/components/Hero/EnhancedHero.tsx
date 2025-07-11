@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Sparkles, Zap, Heart, Shield } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Heart, Shield, PlayCircle, Star, Award, Crown } from 'lucide-react';
 import { Link } from 'react-router-dom';
-// import FloatingProduct from '@/components/3d/FloatingProduct';
+import heroImage from '@/assets/hero-premium.jpg';
 
 const EnhancedHero = () => {
   return (
@@ -157,51 +157,83 @@ const EnhancedHero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Hero Image Showcase */}
+          {/* Premium Product Showcase */}
           <motion.div 
             className="relative"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="relative z-10 aspect-square bg-gradient-primary rounded-3xl p-8 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-32 h-32 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <Sparkles className="w-16 h-16 text-white" />
+            <div className="relative aspect-square overflow-hidden rounded-3xl shadow-2xl">
+              <img 
+                src={heroImage} 
+                alt="Premium Skincare"
+                className="w-full h-full object-cover"
+              />
+              
+              {/* Premium Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              
+              {/* Live AI Badge */}
+              <motion.div 
+                className="absolute top-6 left-6 bg-black/20 backdrop-blur-md p-3 rounded-xl border border-white/20"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 1 }}
+              >
+                <div className="flex items-center gap-2 text-sm font-medium text-white">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                  Live AI Analysis
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">GLOW</h3>
-                <p className="text-white/80">AI-Powered Beauty</p>
-              </div>
+              </motion.div>
+              
+              {/* Premium Badge */}
+              <motion.div 
+                className="absolute top-6 right-6 bg-gradient-to-r from-yellow-400 to-orange-500 p-3 rounded-xl shadow-lg"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+              >
+                <Crown className="w-5 h-5 text-white" />
+              </motion.div>
+              
+              {/* Match Score */}
+              <motion.div 
+                className="absolute bottom-6 left-6 bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 1.4 }}
+              >
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-white">98%</div>
+                  <div className="text-xs text-white/80">AI Match Score</div>
+                  <div className="flex items-center gap-1 mt-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+              
+              {/* Video Play Button */}
+              <motion.div 
+                className="absolute bottom-6 right-6"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 1.6 }}
+              >
+                <Button 
+                  size="icon" 
+                  className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-all"
+                >
+                  <PlayCircle className="w-6 h-6 text-white" />
+                </Button>
+              </motion.div>
             </div>
             
-            {/* Decorative Elements */}
+            {/* Floating Elements */}
             <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl animate-pulse" />
             <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-secondary/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1.5s' }} />
-            
-            {/* Product Highlights */}
-            <motion.div 
-              className="absolute top-4 right-4 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 1 }}
-            >
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                Live AI Analysis
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              className="absolute bottom-4 left-4 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 1.2 }}
-            >
-              <div className="text-sm font-medium">
-                <div className="text-primary font-bold">96% Match</div>
-                <div className="text-xs text-muted-foreground">For your skin</div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </div>
