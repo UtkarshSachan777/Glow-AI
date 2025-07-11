@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Sparkles, Zap, Heart, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import FloatingProduct from '@/components/3d/FloatingProduct';
+// import FloatingProduct from '@/components/3d/FloatingProduct';
 
 const EnhancedHero = () => {
   return (
@@ -157,15 +157,21 @@ const EnhancedHero = () => {
             </motion.div>
           </motion.div>
 
-          {/* 3D Product Showcase */}
+          {/* Hero Image Showcase */}
           <motion.div 
             className="relative"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="relative z-10">
-              <FloatingProduct color="#e91e63" text="GLOW" />
+            <div className="relative z-10 aspect-square bg-gradient-primary rounded-3xl p-8 flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-32 h-32 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <Sparkles className="w-16 h-16 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">GLOW</h3>
+                <p className="text-white/80">AI-Powered Beauty</p>
+              </div>
             </div>
             
             {/* Decorative Elements */}
