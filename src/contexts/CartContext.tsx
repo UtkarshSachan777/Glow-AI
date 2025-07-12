@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
+import { validateQuantity } from '@/lib/security';
 
 interface CartItem {
   id: string;
@@ -79,12 +80,29 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
 
+    // Validate quantity
+    const quantityValidation = validateQuantity(quantity);
+    if (!quantityValidation.isValid) {
+      toast.error(quantityValidation.error);
+      return;
+    }
+
+    // Check if item already exists in cart
+    const existingItem = items.find(item => item.product_id === productId);
+    const newQuantity = existingItem ? existingItem.quantity + quantity : quantity;
+    
+    const finalQuantityValidation = validateQuantity(newQuantity);
+    if (!finalQuantityValidation.isValid) {
+      toast.error(finalQuantityValidation.error);
+      return;
+    }
+
     const { error } = await supabase
       .from('cart_items')
       .upsert({
         user_id: user.id,
         product_id: productId,
-        quantity,
+        quantity: newQuantity,
       });
 
     if (error) {
@@ -119,6 +137,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (quantity <= 0) {
       await removeFromCart(productId);
+      return;
+    }
+
+    // Validate quantity
+    const quantityValidation = validateQuantity(quantity);
+    if (!quantityValidation.isValid) {
+      toast.error(quantityValidation.error);
       return;
     }
 

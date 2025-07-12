@@ -45,17 +45,23 @@ const AISearch: React.FC<AISearchProps> = ({ onResults, onLoading }) => {
   }, [query]);
 
   const handleSearch = async (searchQuery = query) => {
-    if (!searchQuery.trim()) return;
+    const sanitizedQuery = searchQuery.trim().replace(/[<>'"]/g, '');
+    if (!sanitizedQuery || sanitizedQuery.length > 100) {
+      if (sanitizedQuery.length > 100) {
+        toast.error('Search query is too long');
+      }
+      return;
+    }
 
     onLoading(true);
     setShowSuggestions(false);
 
     try {
-      // Simulate AI-powered search with enhanced scoring
+      // Enhanced search with proper sanitization
       const { data: products, error } = await supabase
         .from('products')
         .select('*')
-        .or(`name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%,brand.ilike.%${searchQuery}%`)
+        .or(`name.ilike.%${sanitizedQuery}%,description.ilike.%${sanitizedQuery}%,brand.ilike.%${sanitizedQuery}%`)
         .order('ai_match_score', { ascending: false })
         .limit(20);
 
