@@ -67,8 +67,8 @@ const EnhancedHero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              <div className="flex items-center gap-3 p-4 bg-gradient-card rounded-xl border border-border/50">
-                <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
+              <div className="flex items-center gap-3 p-4 bg-gradient-card rounded-xl border glow-border">
+                <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center shadow-glow">
                   <Zap className="w-5 h-5 text-white" />
                 </div>
                 <div>
@@ -77,8 +77,8 @@ const EnhancedHero = () => {
                 </div>
               </div>
               
-              <div className="flex items-center gap-3 p-4 bg-gradient-card rounded-xl border border-border/50">
-                <div className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center">
+              <div className="flex items-center gap-3 p-4 bg-gradient-card rounded-xl border glow-border">
+                <div className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center shadow-glow">
                   <Heart className="w-5 h-5 text-secondary-foreground" />
                 </div>
                 <div>
@@ -87,8 +87,8 @@ const EnhancedHero = () => {
                 </div>
               </div>
               
-              <div className="flex items-center gap-3 p-4 bg-gradient-card rounded-xl border border-border/50">
-                <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
+              <div className="flex items-center gap-3 p-4 bg-gradient-card rounded-xl border glow-border">
+                <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center shadow-glow">
                   <Shield className="w-5 h-5 text-accent-foreground" />
                 </div>
                 <div>
@@ -97,7 +97,7 @@ const EnhancedHero = () => {
                 </div>
               </div>
               
-              <div className="flex items-center gap-3 p-4 bg-gradient-card rounded-xl border border-border/50">
+              <div className="flex items-center gap-3 p-4 bg-gradient-card rounded-xl border glow-border">
                 <div className="w-10 h-10 bg-gradient-serum rounded-lg flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-foreground" />
                 </div>
@@ -116,7 +116,7 @@ const EnhancedHero = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               <Link to="/analysis">
-                <Button size="lg" className="bg-gradient-primary hover:opacity-90 transition-opacity group px-8 py-4 text-lg">
+                <Button variant="neon" size="lg" className="px-8 py-4 text-lg">
                   Start AI Analysis
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -124,9 +124,9 @@ const EnhancedHero = () => {
               
               <Link to="/products">
                 <Button 
-                  variant="outline" 
+                  variant="glow" 
                   size="lg" 
-                  className="border-2 border-primary/30 hover:bg-primary/5 px-8 py-4 text-lg"
+                  className="px-8 py-4 text-lg"
                 >
                   Shop Products
                 </Button>
@@ -141,17 +141,17 @@ const EnhancedHero = () => {
               transition={{ duration: 0.8, delay: 0.7 }}
             >
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">50K+</div>
+                <div className="text-2xl font-bold gradient-text-primary glow-text">50K+</div>
                 <div className="text-sm text-muted-foreground">Happy Customers</div>
               </div>
               <div className="w-px h-12 bg-border" />
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">4.9★</div>
+                <div className="text-2xl font-bold gradient-text-primary glow-text">4.9★</div>
                 <div className="text-sm text-muted-foreground">Average Rating</div>
               </div>
               <div className="w-px h-12 bg-border" />
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">100+</div>
+                <div className="text-2xl font-bold gradient-text-primary glow-text">100+</div>
                 <div className="text-sm text-muted-foreground">Products</div>
               </div>
             </motion.div>

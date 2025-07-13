@@ -27,11 +27,13 @@ export default {
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
-					glow: 'hsl(var(--primary-glow))'
+					glow: 'hsl(var(--primary-glow))',
+					dark: 'hsl(var(--primary-dark))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					foreground: 'hsl(var(--secondary-foreground))',
+					glow: 'hsl(var(--secondary-glow))'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
@@ -43,7 +45,8 @@ export default {
 				},
 				accent: {
 					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					foreground: 'hsl(var(--accent-foreground))',
+					glow: 'hsl(var(--accent-glow))'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -73,7 +76,9 @@ export default {
 			boxShadow: {
 				'soft': 'var(--shadow-soft)',
 				'elevated': 'var(--shadow-elevated)',
-				'glow': 'var(--shadow-glow)'
+				'glow': 'var(--shadow-glow)',
+				'intense': 'var(--shadow-intense)',
+				'neon': 'var(--neon-glow)'
 			},
 			transitionProperty: {
 				'smooth': 'var(--transition-smooth)',
@@ -106,8 +111,20 @@ export default {
 					'100%': { transform: 'translateX(0)' }
 				},
 				'pulse-glow': {
-					'0%, 100%': { boxShadow: '0 0 20px hsl(var(--primary) / 0.5)' },
-					'50%': { boxShadow: '0 0 40px hsl(var(--primary) / 0.8)' }
+					'0%, 100%': { 
+						boxShadow: '0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary-glow) / 0.3)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 30px hsl(var(--primary) / 0.8), 0 0 60px hsl(var(--primary-glow) / 0.6)' 
+					}
+				},
+				'glow-pulse': {
+					'0%, 100%': { 
+						filter: 'drop-shadow(0 0 8px hsl(var(--primary-glow) / 0.6))' 
+					},
+					'50%': { 
+						filter: 'drop-shadow(0 0 20px hsl(var(--primary-glow) / 0.9))' 
+					}
 				},
 				'float': {
 					'0%, 100%': { transform: 'translateY(0px)' },
@@ -125,6 +142,7 @@ export default {
 				'scale-in': 'scale-in 0.2s ease-out',
 				'slide-in-right': 'slide-in-right 0.3s ease-out',
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
 				'float': 'float 3s ease-in-out infinite',
 				'shimmer': 'shimmer 2s linear infinite'
 			}
