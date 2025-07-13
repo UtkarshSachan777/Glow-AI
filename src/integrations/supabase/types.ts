@@ -144,70 +144,94 @@ export type Database = {
       }
       products: {
         Row: {
+          age_group_target: string[] | null
           ai_match_score: number | null
           benefits: string[] | null
           brand: string | null
           category_id: string | null
+          climate_suitability: string[] | null
+          clinical_evidence_score: number | null
           created_at: string | null
           description: string | null
           id: string
           image_url: string | null
           images: string[] | null
+          ingredient_compatibility: Json | null
           ingredients: string[] | null
           is_featured: boolean | null
           name: string
           original_price: number | null
           price: number
+          price_performance_ratio: number | null
           rating: number | null
           review_count: number | null
           short_description: string | null
+          skin_concern_match: Json | null
           skin_types: string[] | null
           stock_quantity: number | null
           updated_at: string | null
+          usage_frequency: string | null
+          user_satisfaction_score: number | null
         }
         Insert: {
+          age_group_target?: string[] | null
           ai_match_score?: number | null
           benefits?: string[] | null
           brand?: string | null
           category_id?: string | null
+          climate_suitability?: string[] | null
+          clinical_evidence_score?: number | null
           created_at?: string | null
           description?: string | null
           id?: string
           image_url?: string | null
           images?: string[] | null
+          ingredient_compatibility?: Json | null
           ingredients?: string[] | null
           is_featured?: boolean | null
           name: string
           original_price?: number | null
           price: number
+          price_performance_ratio?: number | null
           rating?: number | null
           review_count?: number | null
           short_description?: string | null
+          skin_concern_match?: Json | null
           skin_types?: string[] | null
           stock_quantity?: number | null
           updated_at?: string | null
+          usage_frequency?: string | null
+          user_satisfaction_score?: number | null
         }
         Update: {
+          age_group_target?: string[] | null
           ai_match_score?: number | null
           benefits?: string[] | null
           brand?: string | null
           category_id?: string | null
+          climate_suitability?: string[] | null
+          clinical_evidence_score?: number | null
           created_at?: string | null
           description?: string | null
           id?: string
           image_url?: string | null
           images?: string[] | null
+          ingredient_compatibility?: Json | null
           ingredients?: string[] | null
           is_featured?: boolean | null
           name?: string
           original_price?: number | null
           price?: number
+          price_performance_ratio?: number | null
           rating?: number | null
           review_count?: number | null
           short_description?: string | null
+          skin_concern_match?: Json | null
           skin_types?: string[] | null
           stock_quantity?: number | null
           updated_at?: string | null
+          usage_frequency?: string | null
+          user_satisfaction_score?: number | null
         }
         Relationships: [
           {
@@ -318,7 +342,34 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      calculate_dynamic_ai_score: {
+        Args: {
+          product_id: string
+          user_skin_type?: string
+          user_concerns?: string[]
+          user_age?: number
+          user_climate?: string
+        }
+        Returns: number
+      }
+      get_personalized_recommendations: {
+        Args: {
+          user_skin_type?: string
+          user_concerns?: string[]
+          user_age?: number
+          user_climate?: string
+          limit_count?: number
+        }
+        Returns: {
+          id: string
+          name: string
+          brand: string
+          price: number
+          image_url: string
+          dynamic_score: number
+          match_reasons: string[]
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Star, Check, User } from "lucide-react";
+import { Star, Check, User, Brain, Target, Clock } from "lucide-react";
+import { aiAlgorithm } from '@/lib/ai-algorithm';
 
 interface AnalysisStep {
   id: string;
@@ -52,6 +53,8 @@ const SkinAnalysis = () => {
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
   const [isComplete, setIsComplete] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisStep, setAnalysisStep] = useState(0);
+  const [aiResults, setAiResults] = useState<any>(null);
 
   const currentStepData = analysisSteps[currentStep];
   const progress = ((currentStep + 1) / analysisSteps.length) * 100;
@@ -71,16 +74,52 @@ const SkinAnalysis = () => {
     });
   };
 
-  const nextStep = () => {
+  const nextStep = async () => {
     if (currentStep < analysisSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
       setIsAnalyzing(true);
-      // Simulate AI analysis
-      setTimeout(() => {
-        setIsAnalyzing(false);
-        setIsComplete(true);
-      }, 3000);
+      setAnalysisStep(0);
+      
+      const analysisSteps = [
+        'Analyzing skin tone and texture...',
+        'Detecting skin concerns...',
+        'Processing AI recommendations...',
+        'Finalizing personalized results...'
+      ];
+
+      // Simulate progressive analysis
+      for (let i = 0; i < analysisSteps.length; i++) {
+        setAnalysisStep(i);
+        await new Promise(resolve => setTimeout(resolve, 800));
+      }
+      
+      try {
+        // Use enhanced AI algorithm for analysis
+        const analysisData = await aiAlgorithm.analyzeSkinProfile({
+          oiliness: answers['skin-type'] === 'Oily' ? 8 : answers['skin-type'] === 'Dry' ? 2 : 5,
+          sensitivity: answers['skin-type'] === 'Sensitive' ? 9 : 3,
+          hydration: answers['skin-type'] === 'Dry' ? 2 : 6,
+          concerns: (answers['concerns'] as string[]) || [],
+          age: 28,
+          climate: 'temperate',
+          lifestyle: 'normal'
+        });
+
+        setAiResults(analysisData);
+      } catch (error) {
+        console.error('Analysis error:', error);
+        // Fallback to basic results
+        setAiResults({
+          skinType: answers['skin-type'] as string,
+          concerns: (answers['concerns'] as string[]) || [],
+          recommendations: ['Use gentle cleanser', 'Apply moisturizer daily', 'Use SPF protection'],
+          confidence: 0.85
+        });
+      }
+      
+      setIsAnalyzing(false);
+      setIsComplete(true);
     }
   };
 
@@ -107,17 +146,14 @@ const SkinAnalysis = () => {
                 Our AI is processing your responses to create personalized recommendations...
               </p>
               <div className="space-y-4">
-                <div className="flex items-center gap-3 justify-center">
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                  <span className="text-sm">Analyzing skin type compatibility</span>
-                </div>
-                <div className="flex items-center gap-3 justify-center">
-                  <div className="w-2 h-2 bg-secondary rounded-full animate-pulse delay-300"></div>
-                  <span className="text-sm">Matching ingredients to concerns</span>
-                </div>
-                <div className="flex items-center gap-3 justify-center">
-                  <div className="w-2 h-2 bg-accent rounded-full animate-pulse delay-700"></div>
-                  <span className="text-sm">Generating product recommendations</span>
+                <p className="text-muted-foreground mb-4">
+                  {['Analyzing skin tone and texture...', 'Detecting skin concerns...', 'Processing AI recommendations...', 'Finalizing personalized results...'][analysisStep]}
+                </p>
+                <Progress value={(analysisStep + 1) * 25} className="w-64 mx-auto mb-6" />
+                <div className="flex justify-center gap-4">
+                  <Brain className="w-6 h-6 text-primary animate-pulse" />
+                  <Target className="w-6 h-6 text-muted-foreground" />
+                  <Clock className="w-6 h-6 text-muted-foreground" />
                 </div>
               </div>
             </CardContent>
@@ -149,17 +185,20 @@ const SkinAnalysis = () => {
                       <Star className="w-5 h-5 fill-primary text-primary" />
                       Skin Type Analysis
                     </h4>
-                    <Badge variant="secondary" className="text-lg px-4 py-2">
-                      {answers['skin-type'] as string}
+                    <Badge variant="secondary" className="text-lg px-4 py-2 capitalize">
+                      {aiResults?.skinType || answers['skin-type'] as string}
+                    </Badge>
+                    <Badge variant="outline" className="ml-2">
+                      {Math.round((aiResults?.confidence || 0.85) * 100)}% Confidence
                     </Badge>
                   </div>
                   
                   <div>
                     <h4 className="font-semibold mb-3">Primary Concerns</h4>
                     <div className="flex flex-wrap gap-2">
-                      {(answers['concerns'] as string[])?.map((concern) => (
-                        <Badge key={concern} className="bg-gradient-serum">
-                          {concern}
+                      {(aiResults?.concerns || answers['concerns'] as string[])?.map((concern) => (
+                        <Badge key={concern} className="bg-gradient-serum capitalize">
+                          {concern.replace('_', ' ')}
                         </Badge>
                       ))}
                     </div>
@@ -178,18 +217,18 @@ const SkinAnalysis = () => {
                   <div>
                     <h4 className="font-semibold mb-3">Key Ingredients for You</h4>
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-primary rounded-full"></div>
-                        <span className="text-sm">Hyaluronic Acid - Deep hydration</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-secondary rounded-full"></div>
-                        <span className="text-sm">Niacinamide - Pore minimization</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-accent rounded-full"></div>
-                        <span className="text-sm">Vitamin C - Brightening</span>
-                      </div>
+                      {(aiResults?.recommendations || [
+                        'Hyaluronic Acid - Deep hydration',
+                        'Niacinamide - Pore minimization', 
+                        'Vitamin C - Brightening'
+                      ]).slice(0, 3).map((rec: string, index: number) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <div className={`w-2 h-2 rounded-full ${
+                            index === 0 ? 'bg-primary' : index === 1 ? 'bg-secondary' : 'bg-accent'
+                          }`}></div>
+                          <span className="text-sm">{rec}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                   

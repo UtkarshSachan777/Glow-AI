@@ -104,6 +104,28 @@ const AISearch: React.FC<AISearchProps> = ({ onResults, onLoading }) => {
       if (benefit.toLowerCase().includes(queryLower)) score += 20;
     });
 
+    // New enhanced scoring factors
+    // Check skin concern matching
+    if (product.skin_concern_match && typeof product.skin_concern_match === 'object') {
+      Object.entries(product.skin_concern_match).forEach(([concern, matchScore]) => {
+        if (concern.toLowerCase().includes(queryLower) && typeof matchScore === 'number') {
+          score += Math.floor(matchScore / 5); // Convert 0-100 to 0-20 bonus
+        }
+      });
+    }
+
+    // Clinical evidence bonus
+    if (product.clinical_evidence_score > 80) score += 15;
+    else if (product.clinical_evidence_score > 60) score += 10;
+
+    // User satisfaction bonus
+    if (product.user_satisfaction_score > 4.5) score += 10;
+    else if (product.user_satisfaction_score > 4.0) score += 5;
+
+    // Price-performance bonus
+    if (product.price_performance_ratio > 8.0) score += 10;
+    else if (product.price_performance_ratio > 7.0) score += 5;
+
     return Math.min(score, 100);
   };
 
