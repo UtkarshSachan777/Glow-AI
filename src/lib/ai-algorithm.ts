@@ -110,50 +110,101 @@ export class EnhancedAIAlgorithm {
       lifestyle
     } = responses;
 
-    // Determine skin type based on responses
+    // Advanced AI scoring algorithm for skin type determination
     let skinType = 'normal';
     let confidence = 0.8;
 
-    if (oiliness > 7 && hydration < 4) {
-      skinType = 'oily';
-      confidence = 0.9;
-    } else if (hydration < 4 && oiliness < 4) {
-      skinType = 'dry';
-      confidence = 0.85;
-    } else if (oiliness > 6 && hydration > 6) {
-      skinType = 'combination';
-      confidence = 0.8;
-    } else if (sensitivity > 7) {
-      skinType = 'sensitive';
-      confidence = 0.9;
+    // Multi-factor analysis for more accurate skin type detection
+    const oilinessScore = parseInt(oiliness) || 5;
+    const sensitivityScore = parseInt(sensitivity) || 3;
+    const hydrationScore = parseInt(hydration) || 5;
+
+    // Calculate composite scores
+    const dryScore = (10 - hydrationScore) + (5 - oilinessScore) * 0.7;
+    const oilyScore = oilinessScore + (10 - hydrationScore) * 0.3;
+    const sensitiveScore = sensitivityScore + (oilinessScore > 7 ? -2 : 0);
+    const combinationScore = Math.abs(oilinessScore - hydrationScore) > 3 ? 8 : 4;
+
+    // Determine skin type using weighted scoring
+    const scores = {
+      dry: dryScore,
+      oily: oilyScore,
+      sensitive: sensitiveScore,
+      combination: combinationScore,
+      normal: 6 - Math.abs(oilinessScore - 5) - Math.abs(hydrationScore - 5)
+    };
+
+    const maxScore = Math.max(...Object.values(scores));
+    skinType = Object.keys(scores).find(key => scores[key] === maxScore) || 'normal';
+    confidence = Math.min(0.95, 0.6 + (maxScore / 10) * 0.35);
+
+    // Enhanced concern detection with intelligent mapping
+    const detectedConcerns = [];
+    const concernMap = {
+      acne: ['acne', 'oily_skin', 'pore_control'],
+      aging: ['wrinkles', 'fine_lines', 'aging', 'firmness'],
+      dryness: ['dryness', 'dehydration', 'barrier_repair'],
+      dark_spots: ['dark_spots', 'pigmentation', 'brightening'],
+      sensitivity: ['sensitive_skin', 'redness', 'irritation'],
+      pores: ['pore_minimizing', 'blackheads'],
+      dullness: ['brightening', 'radiance', 'vitamin_c']
+    };
+
+    // Process user-selected concerns
+    if (Array.isArray(concerns)) {
+      concerns.forEach(concern => {
+        if (concernMap[concern]) {
+          detectedConcerns.push(...concernMap[concern]);
+        } else {
+          detectedConcerns.push(concern);
+        }
+      });
     }
 
-    // Determine primary concerns
-    const detectedConcerns = [];
-    if (concerns.includes('acne') || oiliness > 6) {
+    // Add automatically detected concerns based on scores
+    if (oilinessScore > 6) {
       detectedConcerns.push('acne', 'oily_skin');
     }
-    if (concerns.includes('aging') || age > 30) {
-      detectedConcerns.push('wrinkles', 'fine_lines', 'aging');
+    if (age > 30) {
+      detectedConcerns.push('aging', 'wrinkles');
     }
-    if (hydration < 5 || concerns.includes('dryness')) {
+    if (hydrationScore < 4) {
       detectedConcerns.push('dryness', 'dehydration');
     }
-    if (concerns.includes('dark_spots') || concerns.includes('pigmentation')) {
-      detectedConcerns.push('dark_spots', 'pigmentation');
+    if (sensitivityScore > 6) {
+      detectedConcerns.push('sensitive_skin', 'redness');
     }
 
-    // Generate recommendations based on analysis
+    // Remove duplicates
+    const uniqueConcerns = [...new Set(detectedConcerns)];
+
+    // Generate enhanced recommendations
     const recommendations = this.generateSkinRecommendations(
       skinType,
-      detectedConcerns,
+      uniqueConcerns,
       age,
       climate
     );
 
+    // Store user profile for future use
+    const userProfile = {
+      skinType,
+      concerns: uniqueConcerns,
+      age,
+      climate,
+      oiliness: oilinessScore,
+      sensitivity: sensitivityScore,
+      hydration: hydrationScore
+    };
+
+    // Save to localStorage for chatbot and recommendations
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('userSkinProfile', JSON.stringify(userProfile));
+    }
+
     return {
       skinType,
-      concerns: detectedConcerns,
+      concerns: uniqueConcerns,
       recommendations,
       confidence
     };
