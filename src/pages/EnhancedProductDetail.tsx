@@ -43,10 +43,14 @@ interface ExtendedProduct {
   user_satisfaction_score?: number;
   price_performance_ratio?: number;
   usage_frequency?: string;
-  skin_concern_match?: Record<string, number>;
+  skin_concern_match?: any; // Changed to any to handle JSON type
   age_group_target?: string[];
   climate_suitability?: string[];
-  ingredient_compatibility?: Record<string, number>;
+  ingredient_compatibility?: any; // Changed to any to handle JSON type
+  meta_title?: string;
+  meta_description?: string;
+  meta_keywords?: string[];
+  seo_slug?: string;
 }
 
 const EnhancedProductDetail = () => {

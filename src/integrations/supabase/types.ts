@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instanciate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: "13.0.4"
   }
   public: {
     Tables: {
@@ -159,12 +159,16 @@ export type Database = {
           ingredient_compatibility: Json | null
           ingredients: string[] | null
           is_featured: boolean | null
+          meta_description: string | null
+          meta_keywords: string[] | null
+          meta_title: string | null
           name: string
           original_price: number | null
           price: number
           price_performance_ratio: number | null
           rating: number | null
           review_count: number | null
+          seo_slug: string | null
           short_description: string | null
           skin_concern_match: Json | null
           skin_types: string[] | null
@@ -189,12 +193,16 @@ export type Database = {
           ingredient_compatibility?: Json | null
           ingredients?: string[] | null
           is_featured?: boolean | null
+          meta_description?: string | null
+          meta_keywords?: string[] | null
+          meta_title?: string | null
           name: string
           original_price?: number | null
           price: number
           price_performance_ratio?: number | null
           rating?: number | null
           review_count?: number | null
+          seo_slug?: string | null
           short_description?: string | null
           skin_concern_match?: Json | null
           skin_types?: string[] | null
@@ -219,12 +227,16 @@ export type Database = {
           ingredient_compatibility?: Json | null
           ingredients?: string[] | null
           is_featured?: boolean | null
+          meta_description?: string | null
+          meta_keywords?: string[] | null
+          meta_title?: string | null
           name?: string
           original_price?: number | null
           price?: number
           price_performance_ratio?: number | null
           rating?: number | null
           review_count?: number | null
+          seo_slug?: string | null
           short_description?: string | null
           skin_concern_match?: Json | null
           skin_types?: string[] | null
@@ -368,6 +380,26 @@ export type Database = {
           image_url: string
           dynamic_score: number
           match_reasons: string[]
+        }[]
+      }
+      search_products_enhanced: {
+        Args: {
+          search_query?: string
+          skin_type_filter?: string
+          concern_filters?: string[]
+          price_min?: number
+          price_max?: number
+          limit_count?: number
+        }
+        Returns: {
+          id: string
+          name: string
+          brand: string
+          price: number
+          image_url: string
+          rating: number
+          ai_match_score: number
+          search_rank: number
         }[]
       }
     }
