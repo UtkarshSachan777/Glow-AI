@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import AISearch from '@/components/search/AISearch';
 import ProductCard from '@/components/product/ProductCard';
@@ -10,7 +11,7 @@ import { Slider } from '@/components/ui/slider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, Filter, SlidersHorizontal } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import ProductDetailModal from '@/components/product/ProductDetailModal';
+
 
 interface Product {
   id: string;
@@ -42,7 +43,7 @@ const Products = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchLoading, setSearchLoading] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const navigate = useNavigate();
   
   // Filters
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -324,7 +325,7 @@ const Products = () => {
                   <ProductCard
                     key={product.id}
                     product={product}
-                    onProductClick={(product) => setSelectedProduct(product)}
+                    onProductClick={(p) => navigate(`/product/${p.id}`)}
                   />
                 ))}
               </div>
@@ -349,14 +350,6 @@ const Products = () => {
         </div>
       </div>
 
-      {/* Product Detail Modal */}
-      {selectedProduct && (
-        <ProductDetailModal
-          product={selectedProduct}
-          isOpen={!!selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-        />
-      )}
     </div>
   );
 };

@@ -19,6 +19,9 @@ import ProductReviews from '@/components/product/ProductReviews';
 import RelatedProducts from '@/components/product/RelatedProducts';
 import ProductFAQ from '@/components/product/ProductFAQ';
 import TrustSignals from '@/components/product/TrustSignals';
+import InteractiveProductViewer from '@/components/product/InteractiveProductViewer';
+import APlusContent from '@/components/product/APlusContent';
+import StickyCTA from '@/components/product/StickyCTA';
 
 interface ExtendedProduct {
   id: string;
@@ -51,6 +54,7 @@ interface ExtendedProduct {
   meta_description?: string;
   meta_keywords?: string[];
   seo_slug?: string;
+  ai_generated_images?: any;
 }
 
 const EnhancedProductDetail = () => {
@@ -198,7 +202,8 @@ const EnhancedProductDetail = () => {
 
   const inWishlist = isInWishlist(product.id);
   const availability = getAvailabilityStatus();
-  const images = product.images && product.images.length > 0 ? product.images : [product.image_url];
+  const aiImages = product.ai_generated_images ? Object.values(product.ai_generated_images).filter(Boolean) : [];
+  const images = (product.images && product.images.length > 0 ? product.images.filter(Boolean) : []).concat(aiImages.length ? aiImages : [product.image_url]).filter(Boolean);
 
   return (
     <div className="min-h-screen bg-background">
@@ -263,66 +268,12 @@ const EnhancedProductDetail = () => {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Product Images Gallery */}
           <div className="space-y-4">
-            <div className="relative group">
-              <img
-                src={images[selectedImage]}
-                alt={`${product.name} - Image ${selectedImage + 1}`}
-                className="w-full h-96 lg:h-[500px] object-cover rounded-xl shadow-elegant transition-transform duration-500 group-hover:scale-105"
-              />
-              
-              {/* Badges */}
-              <div className="absolute top-4 left-4 flex flex-col gap-2">
-                {product.ai_match_score > 90 && (
-                  <Badge className="bg-gradient-primary text-white border-0 shadow-glow">
-                    <Sparkles className="h-3 w-3 mr-1" />
-                    AI Recommended
-                  </Badge>
-                )}
-                {product.is_featured && (
-                  <Badge className="bg-gradient-accent text-white border-0">
-                    <Medal className="h-3 w-3 mr-1" />
-                    Featured
-                  </Badge>
-                )}
-                {product.clinical_evidence_score && product.clinical_evidence_score > 80 && (
-                  <Badge className="bg-green-600 text-white border-0">
-                    <Beaker className="h-3 w-3 mr-1" />
-                    Clinically Proven
-                  </Badge>
-                )}
-              </div>
-
-              {/* Personalized Score */}
-              {personalizedScore && personalizedScore > 70 && (
-                <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm rounded-lg p-3">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-primary">{personalizedScore}%</div>
-                    <div className="text-xs text-muted-foreground">Match Score</div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Image Thumbnails */}
-            {images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto">
-                {images.map((image, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                      selectedImage === index ? 'border-primary' : 'border-muted'
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt={`${product.name} - Thumbnail ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
+            <InteractiveProductViewer
+              product={product}
+              images={images}
+              selectedImage={selectedImage}
+              onImageSelect={setSelectedImage}
+            />
           </div>
 
           {/* Product Info */}
@@ -626,6 +577,11 @@ const EnhancedProductDetail = () => {
           </Tabs>
         </div>
 
+        {/* A+ Content */}
+        <div className="mt-20">
+          <APlusContent product={product} />
+        </div>
+
         {/* Related Products */}
         {aiRecommendations.length > 0 && (
           <div className="mt-20">
@@ -636,6 +592,14 @@ const EnhancedProductDetail = () => {
           </div>
         )}
       </div>
+
+      {/* Sticky CTA */}
+      <StickyCTA 
+        product={product}
+        onAddToCart={handleAddToCart}
+        inWishlist={inWishlist}
+        onToggleWishlist={handleWishlistToggle}
+      />
     </div>
   );
 };

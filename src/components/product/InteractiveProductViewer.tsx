@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Heart, ShoppingCart, Star, Share2, Sparkles, Plus, Minus, Eye, Zap, Award, Users, Clock, Beaker, Medal, Play, Pause, RotateCcw, Maximize, ThumbsUp, MessageSquare, Camera, ArrowRight } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
@@ -249,6 +249,9 @@ const InteractiveProductViewer: React.FC<InteractiveProductViewerProps> = ({
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
                   <DialogTitle>AI Product Analysis</DialogTitle>
+                  <DialogDescription>
+                    Personalized insights powered by your skin profile and product science.
+                  </DialogDescription>
                 </DialogHeader>
                 <AIProductAnalysis product={product} />
               </DialogContent>
