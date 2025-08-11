@@ -70,6 +70,50 @@ export type Database = {
         }
         Relationships: []
       }
+      generated_product_images: {
+        Row: {
+          ai_model_used: string | null
+          created_at: string | null
+          generation_params: Json | null
+          id: string
+          image_type: string
+          image_url: string
+          is_active: boolean | null
+          product_id: string | null
+          prompt_used: string | null
+        }
+        Insert: {
+          ai_model_used?: string | null
+          created_at?: string | null
+          generation_params?: Json | null
+          id?: string
+          image_type: string
+          image_url: string
+          is_active?: boolean | null
+          product_id?: string | null
+          prompt_used?: string | null
+        }
+        Update: {
+          ai_model_used?: string | null
+          created_at?: string | null
+          generation_params?: Json | null
+          id?: string
+          image_type?: string
+          image_url?: string
+          is_active?: boolean | null
+          product_id?: string | null
+          prompt_used?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generated_product_images_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       order_items: {
         Row: {
           created_at: string | null
@@ -145,6 +189,7 @@ export type Database = {
       products: {
         Row: {
           age_group_target: string[] | null
+          ai_generated_images: Json | null
           ai_match_score: number | null
           benefits: string[] | null
           brand: string | null
@@ -179,6 +224,7 @@ export type Database = {
         }
         Insert: {
           age_group_target?: string[] | null
+          ai_generated_images?: Json | null
           ai_match_score?: number | null
           benefits?: string[] | null
           brand?: string | null
@@ -213,6 +259,7 @@ export type Database = {
         }
         Update: {
           age_group_target?: string[] | null
+          ai_generated_images?: Json | null
           ai_match_score?: number | null
           benefits?: string[] | null
           brand?: string | null
@@ -354,6 +401,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_generated_image_to_product: {
+        Args: {
+          product_id: string
+          image_type: string
+          image_url: string
+          prompt_used?: string
+          generation_params?: Json
+        }
+        Returns: boolean
+      }
       calculate_dynamic_ai_score: {
         Args: {
           product_id: string
@@ -381,6 +438,24 @@ export type Database = {
           dynamic_score: number
           match_reasons: string[]
         }[]
+      }
+      get_products_with_image_status: {
+        Args: { limit_count?: number; offset_count?: number }
+        Returns: {
+          id: string
+          name: string
+          brand: string
+          price: number
+          image_url: string
+          rating: number
+          ai_match_score: number
+          has_ai_images: boolean
+          ai_image_count: number
+        }[]
+      }
+      request_product_image_generation: {
+        Args: { product_id: string; image_type?: string }
+        Returns: Json
       }
       search_products_enhanced: {
         Args: {
