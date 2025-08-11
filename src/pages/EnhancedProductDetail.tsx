@@ -202,8 +202,13 @@ const EnhancedProductDetail = () => {
 
   const inWishlist = isInWishlist(product.id);
   const availability = getAvailabilityStatus();
-  const aiImages = product.ai_generated_images ? Object.values(product.ai_generated_images).filter(Boolean) : [];
-  const images = (product.images && product.images.length > 0 ? product.images.filter(Boolean) : []).concat(aiImages.length ? aiImages : [product.image_url]).filter(Boolean);
+  const aiImages: string[] = product.ai_generated_images
+    ? Object.values(product.ai_generated_images).filter((v): v is string => typeof v === 'string' && v.length > 0)
+    : [];
+
+  const primaryImages: string[] = (product.images ?? []).filter((v): v is string => typeof v === 'string' && v.length > 0);
+  const fallbackImages: string[] = aiImages.length > 0 ? aiImages : [product.image_url];
+  const images: string[] = [...primaryImages, ...fallbackImages];
 
   return (
     <div className="min-h-screen bg-background">
