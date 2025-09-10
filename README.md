@@ -1,4 +1,4 @@
-# 🌟 GlowAI - AI-Powered Skincare Revolution
+# 🌟 GlowAI - AI-Powered Skincare Ecommerce Website
 
 <div align="center">
 
@@ -11,7 +11,7 @@
 
 **Experience the future of skincare with AI-powered recommendations, premium formulations, and personalized beauty solutions.**
 
-[🚀 Live Demo](https://lovable.dev/projects/52d98a90-4103-4777-88da-e117e4cf86fa) • [📖 Documentation](#documentation) • [💬 Support](#support)
+[🚀 Live Demo](https://lovable.dev/projects/52d98a90-4103-4777-88da-e117e4cf86fa) 
 
 </div>
 
@@ -381,13 +381,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🆘 Support
-
-### Getting Help
-- 📧 **Email**: support@glowai.com
-- 💬 **Discord**: [Join our community](https://discord.gg/glowai)
-- 📖 **Documentation**: [docs.glowai.com](https://docs.glowai.com)
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/glowai/glow-ai/issues)
+https://github.com/glowai/glow-ai/issues)
 
 ### FAQ
 **Q: How accurate is the AI skin analysis?**
@@ -408,26 +402,7 @@ A: Yes, we use enterprise-grade encryption and never share personal data with th
 - **Beta Testers**: For valuable feedback and improvement suggestions
 - **Design Team**: For the beautiful and intuitive user experience
 
----
 
-## 📈 Roadmap
-
-### Q1 2024
-- [ ] Mobile app launch (iOS & Android)
-- [ ] Advanced AI features (skin aging prediction)
-- [ ] Integration with wearable devices
-
-### Q2 2024
-- [ ] Global expansion (multi-language support)
-- [ ] Professional dermatologist consultations
-- [ ] Advanced analytics dashboard
-
-### Q3 2024
-- [ ] AI-powered routine optimization
-- [ ] Community features and social sharing
-- [ ] Partnership program for brands
-
----
 
 <div align="center">
 
