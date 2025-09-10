@@ -11,7 +11,7 @@
 
 **Experience the future of skincare with AI-powered recommendations, premium formulations, and personalized beauty solutions.**
 
-[🚀 Live Demo](https://lovable.dev/projects/52d98a90-4103-4777-88da-e117e4cf86fa) 
+[🚀 Live Demo](https://glow-ai-boutique.lovable.app) 
 
 </div>
 
