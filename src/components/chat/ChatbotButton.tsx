@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { MessageCircle } from 'lucide-react';
-import SkincareChatbot from './SkincareChatbot';
+import AdvancedSkincareChatbot from './AdvancedSkincareChatbot';
 
 const ChatbotButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +16,7 @@ const ChatbotButton = () => {
         <MessageCircle className="h-6 w-6" />
       </Button>
 
-      <SkincareChatbot 
+      <AdvancedSkincareChatbot 
         isOpen={isOpen} 
         onClose={() => setIsOpen(false)} 
       />
