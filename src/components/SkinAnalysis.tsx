@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -8,8 +9,9 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Star, Check, User, Brain, Target, Clock, Sparkles, Camera, Wand2, 
-         TrendingUp, Award, Zap, Shield } from "lucide-react";
+         TrendingUp, Award, Zap, Shield, ShoppingBag } from "lucide-react";
 import { aiAlgorithm } from '@/lib/ai-algorithm';
+import { supabase } from '@/integrations/supabase/client';
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
@@ -106,10 +108,54 @@ const SkinAnalysis = () => {
   const [analysisStep, setAnalysisStep] = useState(0);
   const [aiResults, setAiResults] = useState<any>(null);
   const [realTimeScore, setRealTimeScore] = useState(0);
+  const [recommendations, setRecommendations] = useState<any[]>([]);
+  const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(false);
+  const [showRecommendations, setShowRecommendations] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const navigate = useNavigate();
 
   const currentStepData = analysisSteps[currentStep];
   const progress = ((currentStep + 1) / analysisSteps.length) * 100;
+
+  // Fetch personalized product recommendations
+  const fetchPersonalizedRecommendations = async () => {
+    if (!aiResults) return;
+    
+    setIsLoadingRecommendations(true);
+    try {
+      const { data, error } = await supabase.rpc('get_personalized_recommendations', {
+        user_skin_type: aiResults.skinType,
+        user_concerns: aiResults.concerns,
+        user_age: 30, // Default age, can be extracted from demographics
+        user_climate: 'temperate', // Default climate, can be extracted from environment
+        limit_count: 8
+      });
+
+      if (error) {
+        console.error('Error fetching recommendations:', error);
+        toast.error('Failed to load personalized recommendations');
+        return;
+      }
+
+      setRecommendations(data || []);
+      setShowRecommendations(true);
+      toast.success('🎯 Personalized recommendations loaded!');
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to load recommendations');
+    } finally {
+      setIsLoadingRecommendations(false);
+    }
+  };
+
+  // Handle view products button click
+  const handleViewProducts = () => {
+    if (recommendations.length > 0) {
+      setShowRecommendations(true);
+    } else {
+      fetchPersonalizedRecommendations();
+    }
+  };
 
   // Real-time score calculation
   useEffect(() => {
@@ -549,11 +595,93 @@ const SkinAnalysis = () => {
                   </div>
                 </div>
                 
+                {/* AI-Matched Product Recommendations */}
+                {showRecommendations && recommendations.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="mt-8 p-6 bg-gradient-serum rounded-xl border border-primary/20"
+                  >
+                    <h4 className="font-bold text-2xl mb-6 flex items-center gap-2 text-center">
+                      <Sparkles className="w-6 h-6 text-primary" />
+                      Your AI-Matched Products
+                    </h4>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                      {recommendations.slice(0, 8).map((product: any) => (
+                        <motion.div
+                          key={product.id}
+                          className="bg-white rounded-lg border border-primary/10 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                          whileHover={{ scale: 1.02 }}
+                          onClick={() => navigate(`/product/${product.id}`)}
+                        >
+                          <div className="aspect-square bg-gradient-card">
+                            <img
+                              src={product.image_url}
+                              alt={product.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="p-3">
+                            <h5 className="font-semibold text-sm mb-1 line-clamp-2">{product.name}</h5>
+                            <p className="text-xs text-muted-foreground mb-2">{product.brand}</p>
+                            <div className="flex justify-between items-center">
+                              <span className="font-bold text-sm">${product.price}</span>
+                              <Badge className="bg-gradient-primary text-white text-xs">
+                                {product.dynamic_score}% Match
+                              </Badge>
+                            </div>
+                            {product.match_reasons && product.match_reasons.length > 0 && (
+                              <p className="text-xs text-primary mt-1 italic">
+                                {product.match_reasons[0]}
+                              </p>
+                            )}
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                    <div className="text-center mt-6">
+                      <Button 
+                        variant="outline" 
+                        onClick={() => navigate('/products')}
+                        className="px-6"
+                      >
+                        <ShoppingBag className="w-4 h-4 mr-2" />
+                        Browse All Products
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+                
                 <div className="mt-12 text-center space-y-4">
                   <div className="flex justify-center gap-4">
-                    <Button variant="premium" size="lg" className="px-12 py-4 text-lg">
-                      <Sparkles className="w-5 h-5 mr-2" />
-                      View AI-Matched Products
+                    <Button 
+                      variant="premium" 
+                      size="lg" 
+                      className="px-12 py-4 text-lg"
+                      onClick={handleViewProducts}
+                      disabled={isLoadingRecommendations}
+                    >
+                      {isLoadingRecommendations ? (
+                        <>
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity }}
+                            className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                          />
+                          Loading Recommendations...
+                        </>
+                      ) : showRecommendations ? (
+                        <>
+                          <ShoppingBag className="w-5 h-5 mr-2" />
+                          View All Products
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-5 h-5 mr-2" />
+                          View AI-Matched Products
+                        </>
+                      )}
                     </Button>
                     <Button variant="outline" size="lg" className="px-8 py-4">
                       <User className="w-5 h-5 mr-2" />
