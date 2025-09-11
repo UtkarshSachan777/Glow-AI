@@ -7,13 +7,40 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "13.0.4"
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          created_at: string | null
+          details: Json | null
+          id: string
+          operation: string
+          table_name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          operation: string
+          table_name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          operation?: string
+          table_name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       cart_items: {
         Row: {
           created_at: string | null
@@ -403,77 +430,81 @@ export type Database = {
     Functions: {
       add_generated_image_to_product: {
         Args: {
-          product_id: string
+          generation_params?: Json
           image_type: string
           image_url: string
+          product_id: string
           prompt_used?: string
-          generation_params?: Json
         }
         Returns: boolean
       }
       calculate_dynamic_ai_score: {
         Args: {
           product_id: string
-          user_skin_type?: string
-          user_concerns?: string[]
           user_age?: number
           user_climate?: string
+          user_concerns?: string[]
+          user_skin_type?: string
         }
         Returns: number
       }
       get_personalized_recommendations: {
         Args: {
-          user_skin_type?: string
-          user_concerns?: string[]
+          limit_count?: number
           user_age?: number
           user_climate?: string
-          limit_count?: number
+          user_concerns?: string[]
+          user_skin_type?: string
         }
         Returns: {
-          id: string
-          name: string
           brand: string
-          price: number
-          image_url: string
           dynamic_score: number
+          id: string
+          image_url: string
           match_reasons: string[]
+          name: string
+          price: number
         }[]
       }
       get_products_with_image_status: {
         Args: { limit_count?: number; offset_count?: number }
         Returns: {
-          id: string
-          name: string
-          brand: string
-          price: number
-          image_url: string
-          rating: number
-          ai_match_score: number
-          has_ai_images: boolean
           ai_image_count: number
+          ai_match_score: number
+          brand: string
+          has_ai_images: boolean
+          id: string
+          image_url: string
+          name: string
+          price: number
+          rating: number
         }[]
       }
+      mask_email: {
+        Args: { email_address: string }
+        Returns: string
+      }
       request_product_image_generation: {
-        Args: { product_id: string; image_type?: string }
+        Args: { image_type?: string; product_id: string }
         Returns: Json
       }
       search_products_enhanced: {
         Args: {
+          concern_filters?: string[]
+          limit_count?: number
+          price_max?: number
+          price_min?: number
           search_query?: string
           skin_type_filter?: string
-          concern_filters?: string[]
-          price_min?: number
-          price_max?: number
-          limit_count?: number
         }
         Returns: {
-          id: string
-          name: string
-          brand: string
-          price: number
-          image_url: string
-          rating: number
           ai_match_score: number
+          brand: string
+          id: string
+          image_url: string
+          name: string
+          price: number
+          rating: number
           search_rank: number
         }[]
       }
